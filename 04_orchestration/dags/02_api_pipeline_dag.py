@@ -9,6 +9,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/opt/airflow/config/gcp_key.json
 
 import pandas_gbq 
 import google.auth
+from airflow.operators.bash import BashOperator
+
 
 # 1. Python function to extract and load API data to BigQuery
 def extract_and_load_api_data():
@@ -59,6 +61,11 @@ with DAG(
         task_id='fetch_api_and_load_to_bq',
         python_callable=extract_and_load_api_data
     )
+    run_dbt_models_task = BashOperator(
+        task_id='run_dbt_transformations',
+        bash_command='cd /opt/airflow/dbt_project && /home/airflow/.local/bin/dbt run --profiles-dir .',
+        env={'GOOGLE_APPLICATION_CREDENTIALS': '/opt/airflow/config/gcp_key.json'}
+    )
 
     # When we add dbt later, the flow will look like this:
-    # extract_task >> run_dbt_models_task
+    extract_task >> run_dbt_models_task

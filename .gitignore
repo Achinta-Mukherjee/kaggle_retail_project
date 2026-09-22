@@ -52,6 +52,13 @@ Location: modern_data_portfolio/
 modern_data_portfolio/target/
 modern_data_portfolio/dbt_packages/
 
+# dbt Configuration & Artifacts
+modern_data_portfolio/profiles.yml
+modern_data_portfolio/target/
+modern_data_portfolio/dbt_packages/
+modern_data_portfolio/logs/
+modern_data_portfolio/.user.yml
+
 ==============================================================================
 
 5. SYSTEM FILES (Mac OS)
